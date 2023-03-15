@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmailJob;
+use App\Models\User;
 use App\Models\Users;
 use App\Rules\CheckEmail;
 use Illuminate\Http\Request;
@@ -14,6 +16,12 @@ class SiteController extends Controller
     {
         return view('client.home');
     }
+
+    public function forgotPassword(Request $request)
+    {
+        return view('site.forgotPass');
+    }
+
     public function login(Request $request)
     {
         if(!isLogin())return view('site.login');
@@ -59,6 +67,33 @@ class SiteController extends Controller
             return redirect('register')->with(
                 ['pesan' => ['tipe' => 0, 'isi' => 'Gagal Register']]
             );
+        }
+    }
+
+    public function forgotPass(Request $request)
+    {
+        // $users = User::find(5);
+
+        $users = User::where('email',$request->email)->get();
+        if(sizeof($users)<1){
+            return redirect('login')->with('pesan',['tipe'=>0, 'isi'=> 'Email tidak terdaftar']);
+        }
+        else{
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $randomString = '';
+
+            for ($i = 0; $i < 10; $i++) {
+                $index = rand(0, strlen($characters) - 1);
+                $randomString .= $characters[$index];
+            }
+
+            $defaultPassword = Hash::make($randomString);
+            if($users[0]->update(['password'=>$defaultPassword])){
+                dispatch(new SendEmailJob($request->email,$randomString));
+                return redirect('login')->with('pesan',['tipe'=>1, 'isi'=> 'Berhasil Reset Password']);
+            }else{
+                return redirect('login')->with('pesan',['tipe'=>0, 'isi'=> 'Gagal Reset Password']);
+        }
         }
     }
     public function doLogout(Request $request)

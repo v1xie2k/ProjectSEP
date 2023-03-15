@@ -21,6 +21,8 @@ Route::get('/', [SiteController::class,'login']);
 Route::get('/login', [SiteController::class,'login']);
 Route::post('/dologin', [SiteController::class,'dologin']);
 Route::get('/register', [SiteController::class,'register']);
+Route::get('/forgotPassword', [SiteController::class,'forgotPassword']);
+Route::post('/forgotPass', [SiteController::class,'forgotPass']);
 Route::post('/doregister', [SiteController::class,'doregister']);
 Route::post('/dologout', [SiteController::class,'dologout']);
 Route::get('/dologout', [SiteController::class,'dologout']);

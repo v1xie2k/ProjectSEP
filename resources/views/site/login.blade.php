@@ -18,8 +18,8 @@
                 <div class="error"> {{$message}} </div> <br>
             @enderror
             <button type="submit" name="submit" class="btn btn-primary">Login</button>
-        </form>
-
+        </form><br/>
+        <a href="{{url('forgotPassword')}}" style="color: white">Forgot Password ?</a><br/>
         Dont have account ? <a href="{{url('register')}}"><button class="btn btn-success">Register Here</button></a>
         @if (Session::has('pesan'))
             @php($pesan = Session::get('pesan'))
