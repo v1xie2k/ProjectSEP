@@ -51,6 +51,14 @@
                 @enderror
             </div>
             <div class="mb-3">
+                <label class="form-label">Weeb: </label><br>
+                <input type="text" name="weeb" class="weeb" value="{{ getYangLogin()->weeb }}"
+                    aria-describedby="emailHelp" style="width: 100%;">
+                @error('alamat')
+                    <div class="error"> {{$message}} </div> <br>
+                @enderror
+            </div>
+            <div class="mb-3">
                 <label class="form-label">Upload Pict</label>
                 <input type="file" name="photo" class="form-control" value="{{ old('photo') }}"
                     aria-describedby="emailHelp">

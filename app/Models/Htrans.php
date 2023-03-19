@@ -23,6 +23,8 @@ class Htrans extends Model
         'id_ekspedisi',
         'quantity',
         'total',
+        'token',
+        'status_trans',
     ];
     public function Users(){
         return $this->belongsTo(Users::class, 'id_user','id');

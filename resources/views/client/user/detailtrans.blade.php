@@ -9,26 +9,44 @@
             <div class="picture_profile">
                 @if ($picture)
 
-                <img src="{{asset('storage/users/'.$picture)}}" class="card-img-top" alt="..." style="width: 18rem; height: 18rem;">
+                <img src="{{asset('storage/users/'.$picture)}}" class="card-img-top" alt="...">
                 @endif
                 <div class="profile"></div>
             </div>
 
             <div class="data_user">
-                <!-- data user -->
-                <h1>Name<span class="data_user_nama">: {{ getYangLogin()->name}}</span></h1><br>
-                <h1>Email<span class="data_user_email">: {{ getYangLogin()->email}}</span></h1><br>
-                <h1>Address<span class="data_user_alamat">: {{ getYangLogin()->alamat}}</span></h1><br>
-                <h1>Weeb<span class="data_user_weeb">: {{ getYangLogin()->weeb}}</span></h1><br>
-                <a href="{{url('home/user/editprofile/'.getYangLogin()->id)}}"><button class="tombol_edit_user">Edit Profile</button></a><br><br>
-                <a href="{{url('home/user/editpassword/'.getYangLogin()->id)}}"><button class="tombol_edit_user">Edit Password</button></a>
-                {{-- <form action="#" method="get">
-                    <input type="hidden" name="edit" value="(email)">
-                    <a href="{{url('home/user/editprofile/'.getYangLogin()->id)}}"><button class="tombol_edit_user">Edit Profile</button></a><br>
-                    <a href="{{url('home/user/editpassword/'.getYangLogin()->id)}}"><button class="tombol_edit_user">Edit Password</button></a>
-                </form> --}}
+                <h2 style="color: #ffffff;">Detail Transaksi</h2><br>
+                <div class="top_up">
+                        <div class="tabel_top_up">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Nama Menu</th>
+                                    <th>Kategori</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($details as $val )
+                                    <tr>
+                                        <td>{{$val->name_menu}}</td>
+                                        <td>{{$val->Menus->Kategories->name}}</td>
+                                        <td>{{$val->price}}</td>
+                                        <td>{{$val->quantity}}</td>
+                                        <td>{{$val->subtotal}}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            
+                    </div>
+                </div>
+                {{-- <a href="{{url('home/user/profile')}}"><button class="btn btn-primary" style="width:100%;">Back To Profile</button></a> --}}
             </div>
         </div>
+        
         <!-- end profile kiri -->
 
         <!-- atur profile kanan -->
@@ -55,9 +73,9 @@
                     <button class="tombol_top_up" name="topup">Top Up</button>
                 </form>
                 <br>
-                <form action="{{url('home/user/history/topup')}}" method="get">
+                <form action="{{url('home/user/profile')}}" method="get">
                     <input type="hidden" name="detail" value="(email)">
-                    <a href="{{url('home/user/history/topup')}}"><button class="tombol_history">History Top Up</button></a>
+                    <a href="{{url('home/user/profile')}}"><button class="tombol_history">Back to profile</button></a>
                 </form>
             </div>
 
@@ -96,3 +114,38 @@
 </div>
 </div>
 @endsection
+
+
+
+{{-- @extends('layouts.layout')
+@section('content')
+    <div class="product6">
+    <h1>Detail Tranksaksi</h1>
+        <div class="card-body">
+            <table class="table responsive table-dark" id="tableHasil">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Nama Menu</th>
+                    <th>Kategori</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                </tr>
+                </thead>
+                <tbody>
+                    @foreach ($details as $val )
+                    <tr>
+                        <td>{{$val->name_menu}}</td>
+                        <td>{{$val->Menus->Kategories->name}}</td>
+                        <td>{{$val->price}}</td>
+                        <td>{{$val->quantity}}</td>
+                        <td>{{$val->subtotal}}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+            <a href="{{url('home/user/profile')}}"><button class="btn btn-primary" style="width:100%;">Back To Profile</button></a>
+        </div>
+    </div>
+
+@endsection --}}

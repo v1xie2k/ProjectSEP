@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="{{ asset('css/homepage.css') }}" media="screen">
     <link rel="stylesheet" href="{{ asset('css/profile.css') }}" media="screen">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    {{-- <script type="text/javascript"
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key="SB-Mid-client-3pvddp1GPtAATWkY"></script>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> --}}
 </head>
 <body>
     <div>

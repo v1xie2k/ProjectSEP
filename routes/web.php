@@ -32,10 +32,20 @@ Route::prefix('home')->group(function () {
 
     Route::prefix('menu')->group(function () {
         Route::get('',[HomePageController::class,'home']);
+        Route::get('{id}',[HomePageController::class,'listitems']);
+        Route::get('addToCart/{id}',[HomePageController::class,'addToCart']);
     });
 
     Route::prefix('cart')->middleware([CheckLogin::class])->group(function () {
         Route::get('',[CartController::class,'home']);
+        Route::post('increase/{id}',[CartController::class,'increaseCart']);
+        Route::post('decrease/{id}',[CartController::class,'decreaseCart']);
+        Route::post('deleteItem/{id}',[CartController::class,'deleteItem']);
+        Route::post('buy/{id}',[CartController::class,'transaction']);
+        Route::post('callback',[CartController::class,'callbackMidtrans']);
+
+        Route::post('transaction/process',[CartController::class,'transactionProcess']);
+        Route::get('transaction/{id}',[CartController::class,'transactionTemplate']);
     });
 
     Route::prefix('user')->middleware([CheckLogin::class])->group(function () {

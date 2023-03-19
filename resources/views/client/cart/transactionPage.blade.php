@@ -7,7 +7,7 @@
         $qty = 0;
     @endphp
 
-    @foreach ($carts as $val)
+    @foreach ($item as $val)
         @php
             $total += $val->subtotal;
             $qty += $val->quantity;
@@ -30,7 +30,7 @@
                 <!--detail cart -->
                 <div class="cleft">
                     <div class="textCart">
-                        <h1>Shopping Cart</h1>
+                        <h1>Item List</h1>
                     </div>
                     <div class="tabCart">
                         <table>
@@ -42,8 +42,8 @@
                             </thead>
                             <tbody>
 
-                                @if ($carts != null)
-                                    @foreach ($carts as $val)
+                                @if ($item != null)
+                                    @foreach ($item as $val)
 
                                     <tr>
                                         <td>
@@ -51,32 +51,17 @@
                                                     src="{{ asset('storage/items/' . $val->id_menu . '.jpg') }}"
                                                     class="gmbr_cart" alt="..."></div>
                                         </td>
-                                        <td>{{ $val->Menus[0]->name }} <br> {{ $val->Menus[0]->deskripsi }}</td>
+                                        <td>{{ $val->name_menu }}</td>
                                         <td>
                                             <div style="display: flex; flex-direction: row; justify-content:flex-start;"
                                                 class="value">
-                                                <form action="{{ url('home/cart/decrease/' . $val->id_menu) }}"
-                                                    method="post" style="width: 20px; height: 20px; margin-right:20px;"
-                                                    class="minus">
-                                                    @csrf
-                                                    <button class="buttoncart btn_cart_minus"
-                                                        name="btn_cart_minus">-</button>
-                                                </form>
-
                                                 <p class="val"
                                                     style="width: 30px; height: 20px; text-align: center;">
                                                     {{ $val->quantity }}</p>
-
-                                                <form action="{{ url('home/cart/increase/' . $val->id_menu) }}"
-                                                    method="post" style="width: 20px; height: 20px; margin-left:20px;">
-                                                    @csrf
-                                                    <button class="buttoncart btn_cart_plus"
-                                                        name="btn_cart_plus">+</button>
-                                                </form>
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="harganew">{{ 'Rp ' . number_format($val->Menus[0]->harga, 2, ',', '.') }}</p>
+                                            <p class="harganew">{{ 'Rp ' . number_format($val->price, 2, ',', '.') }}</p>
                                         </td>
                                         <td>
                                             {{-- {{ 'Rp ' . number_format($val->subtotal, 2, ',', '.') }} --}}
@@ -100,7 +85,7 @@
                 <div class="cright blur2">
                     <div class="textCart4">ORDER SUMMARY</div>
                     <hr>
-                    <form action="{{ url('home/cart/transaction/process') }}" method="post" style="width: 90%;">
+                    <form action="{{ url('home/cart/buy/' . getYangLogin()->id) }}" method="post" style="width: 90%;">
                         @csrf
                         <div class="textCart3">
 
@@ -113,20 +98,11 @@
                             </div>
                         </div>
                         <div class="textCart3">
-                            <div class="t1">
-                                Shipping Cost
+                            <div class="t2">
+                                Shipping
                             </div>
-                        </div>
-                        <div class="textCart3">
-                            <div class="t1" >
-                                <select name="id_ekspedisi" id="ekspedisi" style="color: #ebcdba; background:none;border: none;background-color: black;" onchange="calc_total()">
-                                    @foreach ($ekspedisis as $val)
-                                        <option value="{{ $val->id }}"> {{ $val->name }} -
-                                            {{ 'Rp ' . number_format($val->ongkir, 2, ',', '.') }}
-
-                                        </option>
-                                    @endforeach
-                                </select>
+                            <div class="t3">
+                                {{$ekspedisi->name}} - {{ 'Rp ' . number_format($ekspedisi->ongkir, 2, ',', '.') }}
                             </div>
                         </div>
                         <hr>
@@ -145,16 +121,18 @@
                             Your Balance is {{ 'Rp ' . number_format(getYangLogin()->saldo, 2, ',', '.') }}
                         </div>
 
-                        <button class="buttonco" name="order">Check Out</button>
+                        <button class="buttonpay" name="order">Pay</button>
                         <input type="hidden" name="id_user" value="{{ getYangLogin()->id }}">
                         <input type="hidden" name="total" value="{{ $total }}">
                         {{-- <input type="hidden" name="total" value="{{ 'Rp ' . number_format($total, 2, ',', '.') }}"> --}}
                         <input type="hidden" name="quantity" value="{{ $qty }}">
+                        <input type="hidden" name="htrans" id="htrans" value="{{$htrans}}">
+                        <input type="hidden" name="item" id="item" value="{{$item}}">
+                        <input type="hidden" name="ekspedisi" id="ekspedisi" value="{{$ekspedisi}}">
                     </form>
                 </div>
             </div>
         </center>
-        <!-- DETAIL CART  -->
 
     </div>
 

@@ -12,6 +12,8 @@
         "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.7",
+        "midtrans/midtrans-php": "^2.5",
+        "sawirricardo/laravel-midtrans": "^1.6",
         "yajra/laravel-datatables": "^9.0"
     },
     "require-dev": {
