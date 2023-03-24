@@ -90,7 +90,7 @@
                         <div class="textCart3">
 
                             <div class="t2">
-                                Total
+                                Sub Total
                             </div>
                             <div class="t3">
                                 {{ 'Rp ' . number_format($total, 2, ',', '.') }}
@@ -106,7 +106,8 @@
                             </div>
                         </div>
                         <hr>
-                        Note: Shipping Cost have not been added to Grang Total
+                        <label style="color: #ebcdba">Note: Shipping Cost have not been added to Grand Total</label>
+                        <br>
                         {{-- <div class="textCart3">
 
                             <div class="t1">
@@ -117,10 +118,7 @@
 
                             </div>
                         </div> --}}
-                        <div class="textC4">
-                            Your Balance is {{ 'Rp ' . number_format(getYangLogin()->saldo, 2, ',', '.') }}
-                        </div>
-
+                        <br>
                         <button class="buttonpay" name="order">Pay</button>
                         <input type="hidden" name="id_user" value="{{ getYangLogin()->id }}">
                         <input type="hidden" name="total" value="{{ $total }}">

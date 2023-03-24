@@ -113,14 +113,7 @@
                             </div>
 
                         </div>
-                        <br>
-                        <h3 style="color: #ebcdba">Delivery Type</h3>
-                        <div class="textCart3">
-                            <input type="radio" id="delivery" name="tipe" value="delivery" checked>
-                            <label for="delivery" style="color: #ebcdba; padding-right: 20px">Delivery</label><br>
-                            <input type="radio" id="diambil" name="tipe" value="diambil">
-                            <label for="diambil" style="color: #ebcdba">Take Away</label><br>
-                        </div>
+
                         <br>
 
                         <div class="textCart3">
