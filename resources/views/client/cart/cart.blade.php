@@ -111,12 +111,18 @@
                                 {{ 'Rp ' . number_format($total, 2, ',', '.') }}
                                 {{-- {{ $total }} --}}
                             </div>
+
                         </div>
+                        <br>
+                        <h3 style="color: #ebcdba">Delivery Type</h3>
                         <div class="textCart3">
-                            <div class="t1">
-                                Shipping Cost
-                            </div>
+                            <input type="radio" id="delivery" name="tipe" value="delivery" checked>
+                            <label for="delivery" style="color: #ebcdba; padding-right: 20px">Delivery</label><br>
+                            <input type="radio" id="diambil" name="tipe" value="diambil">
+                            <label for="diambil" style="color: #ebcdba">Take Away</label><br>
                         </div>
+                        <br>
+
                         <div class="textCart3">
                             <div class="t1" >
                                 <select name="id_ekspedisi" id="ekspedisi" style="color: #ebcdba; background:none;border: none;background-color: black;" onchange="calc_total()">
@@ -130,7 +136,8 @@
                             </div>
                         </div>
                         <hr>
-                        Note: Shipping Cost have not been added to Grang Total
+                        <label style="color: #ebcdba">Note: Shipping Cost have not been added to Grand Total</label>
+
                         {{-- <div class="textCart3">
 
                             <div class="t1">
@@ -141,9 +148,6 @@
 
                             </div>
                         </div> --}}
-                        <div class="textC4">
-                            Your Balance is {{ 'Rp ' . number_format(getYangLogin()->saldo, 2, ',', '.') }}
-                        </div>
 
                         <button class="buttonco" name="order">Check Out</button>
                         <input type="hidden" name="id_user" value="{{ getYangLogin()->id }}">
