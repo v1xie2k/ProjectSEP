@@ -1,0 +1,12 @@
+// $.ajax({
+//     type: 'POST',
+//     url: '{{ route('admin/user/sort') }}',
+//     data: { 'id': air_id ,'_token':'{{ csrf_token()}}'},
+//     dataType: 'json',
+//     success: function(data) {
+//         console.log(data);
+//         $('#employee_name').html(data.fullname);
+//         },
+//     error:function(){
+//     }
+// });
