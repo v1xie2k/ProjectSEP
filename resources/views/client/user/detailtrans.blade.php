@@ -23,7 +23,9 @@
                     <span style="color: rgb(199, 31, 9);">Failed</span>
                 @endif
                 </h3><br>
-                <h3 style="color: #ffffff;">Waktu Pembayaran {{$detailHtrans->payment_date}}</h3><br>
+
+                <h3 style="color: #ffffff;">Tanggal Pembayaran {{substr($detailHtrans->payment_date,0,10)}}</h3><br>
+                <h3 style="color: #ffffff;">Waktu Pembayaran {{substr($detailHtrans->payment_date,10,10)}}</h3><br>
                 <h3 style="color: #ffffff;">
                     {{-- id ekspedisi 5 = Takeaway --}}
                     @if ($detailHtrans->id_ekspedisi != 5)
