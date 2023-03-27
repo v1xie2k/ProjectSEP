@@ -96,9 +96,9 @@ class UserController extends Controller
                 $picture = pathinfo($val)["basename"];
             }
         }
-
+        $detailHtrans = Htrans::where('id', $request->id)->first();
         $details = Dtrans::where('id_htrans', $request->id)->get();
-        return view('client.user.detailtrans',compact('details','picture','htrans'));
+        return view('client.user.detailtrans',compact('details','picture','htrans','detailHtrans'));
     }
 
     public function dotopup(Request $request)

@@ -16,6 +16,21 @@
 
             <div class="data_user">
                 <h2 style="color: #ffffff;">Detail Transaksi</h2><br>
+                <h3 style="color: #ffffff;">Status Transaksi:
+                @if ($detailHtrans->status_trans == 100)
+                    <span style="color: rgb(8, 93, 8);">Success</span>
+                @else
+                    <span style="color: rgb(199, 31, 9);">Failed</span>
+                @endif
+                </h3><br>
+                <h3 style="color: #ffffff;">Waktu Pembayaran {{$detailHtrans->payment_date}}</h3><br>
+                <h3 style="color: #ffffff;">
+                    {{-- id ekspedisi 5 = Takeaway --}}
+                    @if ($detailHtrans->id_ekspedisi != 5)
+                        Courier: {{$detailHtrans->Ekspedisis->name}}<br>
+                        Alamat: {{$detailHtrans->alamat}}
+                    @endif
+                </h3>
                 <div class="top_up">
                         <div class="tabel_top_up">
                             <table>
@@ -40,13 +55,13 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            
+
                     </div>
                 </div>
                 {{-- <a href="{{url('home/user/profile')}}"><button class="btn btn-primary" style="width:100%;">Back To Profile</button></a> --}}
             </div>
         </div>
-        
+
         <!-- end profile kiri -->
 
         <!-- atur profile kanan -->
@@ -89,6 +104,7 @@
                 <table>
                     <thead>
                         <th>Date</th>
+                        <th>Time</th>
                         <th>Amount</th>
                         <th>Detail</th>
                     </thead>
@@ -96,9 +112,19 @@
                         @if ($htrans)
                             @foreach ($htrans as $val)
                                 <tr id="tabel_history">
-                                    <td>{{$val->date}}</td>
+                                    <td>{{substr($val->created_at,0,10)}}</td>
+                                    <td>{{substr($val->created_at,10,10)}}</td>
                                     <td>{{$val->total}}</td>
-                                    <td><a href="{{url('home/user/history/trans/detail/'.$val->id)}}" class="btn btn-secondary">Detail</a></td>
+                                    @if ($val->status_trans == 1)
+                                        <form action="{{url('home/cart/buy/'.$val->id)}}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="htrans" value="{{$val}}">
+                                            <input type="hidden" name="type" value="pending">
+                                            <td><button class="btn btn-success">Pay</button></td>
+                                        </form>
+                                    @else
+                                        <td><a href="{{url('home/user/history/trans/detail/'.$val->id)}}" class="btn btn-secondary">Detail</a></td>
+                                    @endif
                                 </tr>
                             @endforeach
                         @else

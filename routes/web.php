@@ -60,6 +60,8 @@ Route::prefix('home')->group(function () {
         Route::get('editpassword/{id}',[UserController::class,'editpassword']);
         Route::post('doedit/{id}',[UserController::class,'doedit']);
         Route::post('doedit/password/{id}',[UserController::class,'doeditpassword']);
+        Route::get('history/trans',[UserController::class,'historyTrans']);
+        Route::get('history/trans/detail/{id}',[UserController::class,'historyTransDetail']);
     });
 });
 

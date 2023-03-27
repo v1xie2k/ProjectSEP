@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use App\Mail\InvoiceMail;
 use App\Models\Cart;
 use App\Models\Dtrans;
@@ -250,13 +251,19 @@ class CartController extends Controller
             var_dump($callback->va_numbers[0]->bank);
             $temp['bank'] = $callback->va_numbers[0]->bank;
         }
-        Htrans::where('id', (int)$request->idHtrans)->update(['status_trans' => 100]);
-        LogTransaksi::create($temp);
-        $htrans = Htrans::where('id', (int)$request->idHtrans)->get();
-        $htrans = $htrans[0];
-        $items = Dtrans::where('id_htrans',$htrans->id)->get();
-        new InvoiceMail($items, $htrans->created_at);
-        Mail::to(getYangLogin()->email)->send(new InvoiceMail($items, $htrans->created_at));
+
+
+        $now = new DateTime();
+        if($callback->status_code == 401){
+            Htrans::where('id', (int)$request->idHtrans)->update(['status_trans' => 0, 'payment_date' => $now]);
+        }else{
+            Htrans::where('id', (int)$request->idHtrans)->update(['status_trans' => 100, 'payment_date' => $now]);
+            LogTransaksi::create($temp);
+            $htrans = Htrans::where('id', (int)$request->idHtrans)->first();
+            $items = Dtrans::where('id_htrans',$htrans->id)->get();
+            new InvoiceMail($items, $htrans->created_at);
+            Mail::to(getYangLogin()->email)->send(new InvoiceMail($items, $htrans->created_at));
+        }
         return redirect('home');
     }
     public function transactionProcess(Request $request)
