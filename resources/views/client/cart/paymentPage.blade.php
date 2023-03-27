@@ -26,6 +26,7 @@
             submitMidtransCallback(result);
         },
         onClose: function(){
+            //ini dipikirkan lagi
             alert('you closed the popup without finishing the payment');
         }
         })

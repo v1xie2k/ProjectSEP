@@ -85,7 +85,7 @@
                 <div class="cright blur2">
                     <div class="textCart4">ORDER SUMMARY</div>
                     <hr>
-                    <form action="{{ url('home/cart/buy/' . getYangLogin()->id) }}" method="post" style="width: 90%;">
+                    <form action="{{ url('home/cart/buy/' . $htrans->id) }}" method="post" style="width: 90%;">
                         @csrf
                         <div class="textCart3">
 
