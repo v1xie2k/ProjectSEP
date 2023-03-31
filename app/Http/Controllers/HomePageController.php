@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Storage;
 
 class HomePageController extends Controller
 {
+    public function CariMenu(Request $r){
+        $menu = Menu::where('name','LIKE', '%'.$r->search.'%')->where('id_kategori','=',$r->id)->get();
+        // $menu = Menu::where('name','LIKE', 'Indomie')->where('id_kategori','=',2)->get();
+        return response()->json($menu);
+    }
     public function home(Request $request)
     {
         Session::forget('categoriesPicts');
@@ -29,6 +34,7 @@ class HomePageController extends Controller
     public function listitems(Request $request)
     {
         Session::forget('picts');
+        $id = $request->id;
         $category = KategoriMenu::find($request->id);
         $items = Menu::where('id_kategori',$request->id)->orderBy('name','asc')->get();
         $pict = Storage::disk('public')->files("items");
@@ -42,7 +48,7 @@ class HomePageController extends Controller
             Session::push('picts', pathinfo($val)["basename"]);
         }
         $picts = Session::get('picts');
-        return view('client.menu.listitems',compact('category','items','picts'));
+        return view('client.menu.listitems',compact('category','items','picts','id'));
     }
     public function addToCart(Request $request)
     {
