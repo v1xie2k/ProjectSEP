@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('midtrans:changeStatus')->everyMinute()->timezone('Asia/Jakarta');
         // $schedule->command('inspire')->hourly();
     }
 
