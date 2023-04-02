@@ -13,6 +13,12 @@
         <div class="form-group">
             {{-- <label for="exampleInputPassword">Supplier</label> --}}
             <input type="text" class="form-control" placeholder="Cari Menu" id="Search" name="Search">
+            <select>
+                <option value="0">----ALL----</option>
+                <option value="1">Rp 0  - Rp 20.000,00</option>
+                <option value="2">Rp 20.000,00 - Rp 39.999,00</option>
+                <option value="3">>= Rp 40.000,00</option>
+            </select><br>
             <input type="hidden" id="id" name="id" value="{{$id}}">
             @if(isLogin())
                 <input type="hidden" name="loginUser" id="loginUser" value="ada">
@@ -37,12 +43,7 @@
                                             {{-- <a href="{{ url('home/menu/addToCart/' . $val->id) }}" class="addcart">Add To Cart</a><br> --}}
                                             @endif
                                         </div>
-                                        {{-- <div class="mname title99">{{ $val->name }}</div>
-                                        <div class="mdes">{{ $val->deskripsi }}</div>
-                                        <div class="harga">{{  "Rp " . number_format($val->harga, 2, ",", ".")}}</div>
-                                        @if (isLogin())
-                                            <a href="{{ url('home/menu/addToCart/' . $val->id) }}" class="addcart">Add To Cart</a><br>
-                                        @endif --}}
+
                                     </div>
                             </div>
                             <div class="mdright">
@@ -135,12 +136,68 @@
                     if(data.length==0){
                         $("#result").empty();
                     }
+                    $("select").val($("option:first").val());
                 },
                 error: function (data, textStatus, errorThrown) {
                     console.log(data);
                 },
             });
         })
+        $('select').on('change', function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            var value = $(this).val()
+            var id = $('#id').val()
+            var login = $('#loginUser').val()
+
+        $.ajax({
+                type : 'POST',
+                url : '/home/menu/cari-menu-price/'+id,
+                dataType : 'json',
+                data:{'search':value},
+
+                success:function(data){
+
+                    $("#result").empty();
+                    var temp = '<div class="menuContainer">';
+                    for (let index = 0; index < data.length; index++) {
+                        var id =  data[index]['id']
+                        var syntaxAsset = '{{ asset("storage/items/") }}/'
+                        syntaxAsset += id + '.jpg'
+                        temp = temp + '<div class="menue" style = "padding-top:10px;">'
+                        temp = temp + '<img src="' + syntaxAsset + '" class="card-img-top" alt="..." style="width: 250px;height:200px;">'
+                        temp = temp + '<div class="mdown">'
+                        temp = temp + '<div style="width: 100%;height: 80px;" >'
+                        temp = temp + '<div class="mdleft">'
+                        temp = temp + '<div class="mname title99">'+ data[index]['name'] +'</div>'
+                        temp = temp + '<div class="mdes">'+ data[index]['deskripsi'] +'</div>'
+                        temp = temp + '</div>'
+                        temp = temp + '<div class="mdright">'
+                        temp = temp + '<div class="harga">Rp' + separateComma(data[index]['harga'])+'</div>'
+                        if(login == 'ada'){
+                            var syntaxUrl = '{{ url("home/menu/addToCart/") }}/' + id
+                            temp = temp+ '<div class="addcart"><button class="btn_cart"><a href="'+ syntaxUrl+'" style="text-decoration:none; color: #774f34;">Add To Cart</a></button></div>'
+                        }
+                        temp = temp + '</div>'
+                        temp = temp + '</div>'
+                        temp = temp + '</div>'
+                        temp = temp + '</div>'
+                    }
+                    temp += "</div>";
+                    $("#result").append(temp);
+                    if(data.length==0){
+                        $("#result").empty();
+                    }
+                    $("#Search").val("")
+                },
+                error: function (data, textStatus, errorThrown) {
+                    console.log(data);
+                },
+            });
+        });
     });
 </script>
 @endsection

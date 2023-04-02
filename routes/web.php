@@ -42,6 +42,7 @@ Route::prefix('home')->group(function () {
         Route::get('addToCart/{id}',[HomePageController::class,'addToCart']);
 
         Route::post('/cari-menu/{id}',[HomePageController::class,'CariMenu']);
+        Route::post('/cari-menu-price/{id}',[HomePageController::class,'CariMenuPrice']);
     });
 
     Route::prefix('cart')->middleware([CheckLogin::class])->group(function () {

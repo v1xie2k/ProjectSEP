@@ -18,6 +18,24 @@ class HomePageController extends Controller
         // $menu = Menu::where('name','LIKE', 'Indomie')->where('id_kategori','=',2)->get();
         return response()->json($menu);
     }
+
+    public function CariMenuPrice(Request $r){
+        if($r->search == "1"){
+            $menu = Menu::where('harga','<', 20000)->where('id_kategori','=',$r->id)->get();
+        }
+        else if($r->search == "2"){
+            $menu = Menu::where('harga','>', 19999)->where('harga','<', 39999)->where('id_kategori','=',$r->id)->get();
+        }
+        else if($r->search == "3"){
+            $menu = Menu::where('harga','>', 39999)->where('id_kategori','=',$r->id)->get();
+        }
+        else{
+            $menu = Menu::where('id_kategori','=',$r->id)->get();
+        }
+
+        // $menu = Menu::where('name','LIKE', 'Indomie')->where('id_kategori','=',2)->get();
+        return response()->json($menu);
+    }
     public function home(Request $request)
     {
         Session::forget('categoriesPicts');
