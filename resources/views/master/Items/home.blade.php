@@ -60,6 +60,41 @@
                     <div class="error"> {{$message}} </div> <br>
                 @enderror
             </div>
+            <h1>Resep</h1>
+            <div class="row clearfix">
+                <div class="col-md-12">
+                    <table class="table table-bordered table-hover" id="tab_logic">
+                        <thead>
+                            <th class="text-center">Item Name</th>
+                            <th class="text-center">Qty</th>
+                            <th class="text-center">Action</th>
+                        </thead>
+
+                        <tbody id="tbody">
+                            <tr>
+                                <td>
+                                    <select name='items[]' class="form-control">
+                                        @foreach ($item as $key => $i)
+                                            <option value="{{ $i->id }}">{{ $i->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </td>
+
+                                <td><input type="number" name='qty[]' placeholder='Enter Qty'
+                                        class="form-control qty" step="0" min="1"/></td>
+                                <td>
+                                    <input type="button" value="Remove" class="btn btn-danger remove">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <button class="btn btn-default pull-left" id="addBtn" type="button" onclick="addClick()" style="width: 300px">
+                Add Row
+            </button>
+
+            <br><br>
             <button type="submit" class="btn btn-success" style="width: 117%;">Add</button>
         </form><br>
         @if (Session::has('pesan'))
@@ -117,6 +152,32 @@
                 { data: 'btnDelete', name: 'btnDelete' ,className:'hitam'}
             ]
         });
+
+        $('#tbody').on('click', '.remove', function() {
+
+            var child = $(this).closest('tr').nextAll();
+            $(this).closest('tr').remove();
+            rowIdx--;
+        });
     });
+    function addClick() {
+            var rowCount = $('#tab_logic tr').length;
+            let html = `
+                <tr>
+                    <td>
+                        <select name='items[]' class="form-control">
+                                        @foreach ($item as $key => $i)
+                                            <option value="{{ $i->id }}">{{ $i->name }}</option>
+                                        @endforeach
+                                    </select>
+                    </td>
+                    <td><input type="number" name='qty[]' placeholder='Enter Qty' class="form-control qty" step="0" min="0"/></td>
+                    <td>
+                        <input type="button" value="Remove" class="btn btn-danger remove">
+                    </td>
+                </tr>
+                `;
+            $('#tbody').append(html);
+        }
 </script>
 @stop

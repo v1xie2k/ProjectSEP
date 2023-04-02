@@ -11,8 +11,6 @@ class Cart extends Model
     use HasFactory;
 
     protected $table        = "cart";
-    // protected $primaryKey   = "buku_id";
-    // public $incrementing    = true;
     public $timestamps      = true;
 
 

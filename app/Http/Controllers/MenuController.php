@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\barang;
+use App\Models\detail_resep;
 use App\Models\KategoriMenu;
 use App\Models\Menu;
+use App\Models\resep;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -15,7 +19,8 @@ class MenuController extends Controller
     {
         // $menus = Menu::get();
         $categories = KategoriMenu::get();
-        return view('master.Items.home',compact('categories'));
+        $item = barang::get();
+        return view('master.Items.home',compact('categories','item'));
     }
 
     public function edit(Request $request)
@@ -36,7 +41,26 @@ class MenuController extends Controller
             'harga' => 'required|numeric'
         ]);
         $data = $request->all();
+        $items = $request->input('items', []);
+        $quantities = $request->input('qty', []);
         $id = Menu::create($data);
+        $dataResep['id_menu'] = $id->id;
+        $idresep = resep::create($dataResep);
+
+        for ($i=0; $i < count($quantities); $i++) {
+            if ($quantities[$i] != '') {
+                $dataResepDetail['id_resep'] = $idresep->id;
+                $dataResepDetail['id_barang'] = $items[$i];
+                $dataResepDetail['qty'] = $quantities[$i];
+                $detailResep = detail_resep::create($dataResepDetail);
+            };
+        }
+
+        $data['resep_id'] = $idresep->id;
+
+        $menu = Menu::find($id->id);
+        $menu->update($data);
+
         if($id){
             $namaFile = $id->id.".".$request->file("photo")->getClientOriginalExtension();
             $path = $request->file("photo")->storeAs("items", $namaFile, "public");
@@ -122,5 +146,29 @@ class MenuController extends Controller
             ->rawColumns(['btnDelete', 'kategori', 'picture'])
             ->make(true);
     }
+
+    // public function makeOrder(Request $request)
+    // {
+    //     $id = Session::get('idOrder');
+    //     if ($request->ajax()) {
+    //         $allItem = items::all();
+    //         return response()->json($allItem, 200);
+    //     }
+    //     $item = quotations_detail::where('quotation_id',$id)->get();
+
+    //     for ($i=0; $i < sizeof($item); $i++) {
+    //         // $item[$i]["type_id"]=
+    //         for ($f=0; $f < sizeof($type); $f++) {
+    //             if ($item[$i]["type_id"]==$type[$f]["type_id"]) {
+    //                 $item[$i]["type_name"] = $type[$f]["type_name"];
+    //             }
+    //         }
+    //     }
+    //     // dd($item);
+    //     // dd($item[0]["quotation_id"]);
+    //     return view('master.Items.home',[
+    //         'item'=> $item,
+    //     ]);
+    // }
 
 }

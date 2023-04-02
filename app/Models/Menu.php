@@ -23,6 +23,7 @@ class Menu extends Model
         'name',
         'harga',
         'deskripsi',
+        'resep_id'
     ];
 
     public function Kategories(){
