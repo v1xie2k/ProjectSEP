@@ -24,5 +24,7 @@
     <div class="foot">
         <p class="copy">Copyright 2022 © Amazake</p>
     </div>
+
+    @yield('adminlte_js')
 </body>
 </html>

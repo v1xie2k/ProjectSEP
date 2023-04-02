@@ -24,6 +24,7 @@ class CartController extends Controller
 {
     public function home(Request $request)
     {
+        $user = Users::where('id', getYangLogin()->id)->get();
         $carts = Cart::where('id_user', getYangLogin()->id)->get();
         $ekspedisis = Ekspedisi::all();
         Session::forget('picts');
@@ -38,7 +39,9 @@ class CartController extends Controller
             Session::push('picts', pathinfo($val)["basename"]);
         }
         $picts = Session::get('picts');
-        return view('client.cart.cart',compact('carts','picts','ekspedisis'));
+
+        $alamats = explode(" - ", $user[0]['alamat']);
+        return view('client.cart.cart',compact('carts','picts','ekspedisis','alamats'));
     }
     public function decreaseCart(Request $request)
     {
@@ -244,6 +247,22 @@ class CartController extends Controller
         \Midtrans\Config::$isSanitized = true;
         \Midtrans\Config::$is3ds = true;
         $carts = Cart::where('id_user',getYangLogin()->id)->get();
+        $alamatDelivery = "";
+        if($request->alamat == "other"){
+            if($request->alamatBaru == null){
+                return redirect()->back()->with(['msg'=>['isi'=>'Input Alamat Baru','type'=>0]]);
+            }
+            else{
+                $user = Users::where('id', getYangLogin()->id)->get();
+                $dataUser = Users::find(getYangLogin()->id);
+                $alamatUser = $user[0]['alamat'] . " - " . $request->alamatBaru;
+                $dataUser->update(['alamat'=>$alamatUser]);
+                $alamatDelivery = $request->alamatBaru;
+            }
+        }
+        else{
+            $alamatDelivery = $request->alamat;
+        }
         if(count($carts) != 0)
         {
             $totalPrice = 0;
@@ -255,6 +274,8 @@ class CartController extends Controller
 
             $data = $request->all();
             $data['total'] += $ekspedisi->ongkir;
+            $data['alamat'] = $alamatDelivery;
+            $data['waktu_pengiriman'] = $request->waktu_pengiriman;
             //status untuk htrans
             // 0  declined
             // 1 pending
@@ -263,6 +284,7 @@ class CartController extends Controller
 
             try {
                 $item = [];
+                dd($data);
                 $htrans = Htrans::create($data);
                 foreach($carts as $val)
                 {

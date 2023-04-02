@@ -25,15 +25,8 @@
                                 <div class="harga">{{  "Rp " . number_format($val->harga, 2, ",", ".")}}</div>
                                 @if (isLogin())
                                 <div class="addcart"><button class="btn_cart"><a href="{{ url('home/menu/addToCart/' . $val->id) }}" style="text-decoration:none; color: #774f34;">Add To Cart</a></button></div>
-                                {{-- <a href="{{ url('home/menu/addToCart/' . $val->id) }}" class="addcart">Add To Cart</a><br> --}}
                                 @endif
                             </div>
-                            {{-- <div class="mname title99">{{ $val->name }}</div>
-                            <div class="mdes">{{ $val->deskripsi }}</div>
-                            <div class="harga">{{  "Rp " . number_format($val->harga, 2, ",", ".")}}</div>
-                            @if (isLogin())
-                                <a href="{{ url('home/menu/addToCart/' . $val->id) }}" class="addcart">Add To Cart</a><br>
-                            @endif --}}
                         </div>
                 </div>
             </div>

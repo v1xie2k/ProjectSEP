@@ -115,6 +115,34 @@
                         </div>
 
                         <br>
+                        <div class="textCart3">
+                            <label for="alamat" style="padding-right: 20px">PilihAlamat Pengiriman :</label>
+                        </div>
+
+                        <div class="textCart3">
+
+                            <select name="alamat" id="alamat">
+                                @foreach ($alamats as $value)
+                                    <option value="{{ $value }}">{{ $value }}</option>
+                                @endforeach
+                                    <option value="other">Tambah alamat baru</option>
+                            </select>
+                        </div>
+
+                        <div class="textCart3">
+                            <label for="alamat" style="padding-right: 20px">Tambah Alamat Pengiriman Baru :</label>
+                        </div>
+
+                        <div class="textCart3">
+                            <input type="text" name="alamatBaru" id="alamatBaru">
+                        </div>
+                        <div class="textCart3">
+                            <label for="waktu_pengiriman">Delivery Time</label>
+                        </div>
+                        <div class="textCart3">
+                            <input type="datetime-local" id="waktu_pengiriman" name="waktu_pengiriman">
+                        </div>
+                        <br>
 
                         <div class="textCart3">
                             <div class="t1" >
@@ -157,3 +185,26 @@
 
 
 @endsection
+
+@section('adminlte_js')
+<script>
+   $(function(){
+        const d = new Date();
+        let year = d.getFullYear();
+        let day = d.getDate();
+        let month = d.getMonth() +1;
+        if(month<10){
+            month = "0"+month
+        }
+        let hour = d.getHours();
+        let minutes = d.getMinutes();
+        if(minutes<10){
+            minutes = "0"+minutes
+        }
+        const dateNow = year+"-"+month+"-"+day+"T"+hour+":"+minutes;
+        const dateControl = document.querySelector('input[type="datetime-local"]');
+        dateControl.value = dateNow;
+        dateControl.min = dateNow;
+    });
+</script>
+@stop

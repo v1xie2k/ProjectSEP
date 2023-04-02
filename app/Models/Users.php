@@ -43,6 +43,7 @@ class Users extends Authenticatable
         'alamat',
         'saldo',
         'role',
+        'telp'
     ];
 
     // kesalahan #5

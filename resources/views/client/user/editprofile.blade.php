@@ -59,6 +59,14 @@
                 @enderror
             </div>
             <div class="mb-3">
+                    <label class="form-label">Nomor Telp: </label><br>
+                    <input type="text" name="telp" class="telp" value="{{ old('telp') }}"
+                        aria-describedby="emailHelp" style="width: 100%;">
+                    @error('telp')
+                        <div class="error"> {{$message}} </div>
+                    @enderror
+                </div>
+            <div class="mb-3">
                 <label class="form-label">Upload Pict</label>
                 <input type="file" name="photo" class="form-control" value="{{ old('photo') }}"
                     aria-describedby="emailHelp">

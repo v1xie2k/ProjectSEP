@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\DataTables;
 
 class HomePageController extends Controller
 {
@@ -77,4 +78,5 @@ class HomePageController extends Controller
             // $cart->update($cart);
         }
     }
+
 }

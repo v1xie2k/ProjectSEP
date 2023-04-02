@@ -33,34 +33,6 @@
 
         <!-- atur profile kanan -->
         <div class="profile_kanan">
-            <h2 style="color: #ffffff;">Your Balance is : {{ 'Rp ' . number_format(getYangLogin()->saldo, 2, ',', '.') }}</h2><br>
-            <div class="top_up">
-                <h4>Masukan jumlah topup</h4>
-                    <br>
-                    @if (Session::has('msg'))
-                        @php($msg = Session::get('msg'))
-                            @if ($msg['tipe'] == 0)
-                                <div class="alert alert-danger">{{ $msg['isi'] }}</div>
-                            @else
-                                <div class="alert alert-success">{{ $msg['isi'] }}</div>
-                        @endif
-                    @endif
-                <form action="{{ url('home/user/topup') }}" method="post">
-                    @csrf
-                    <input type="text" inputmode="numeric" name="jum" id="" min="0">
-                    @error('jum')
-                        <div class="error"> {{$message}} </div> <br>
-                    @enderror
-                    <br>
-                    <button class="tombol_top_up" name="topup">Top Up</button>
-                </form>
-                <br>
-                <form action="{{url('home/user/history/topup')}}" method="get">
-                    <input type="hidden" name="detail" value="(email)">
-                    <a href="{{url('home/user/history/topup')}}"><button class="tombol_history">History Top Up</button></a>
-                </form>
-            </div>
-
             <br>
             <center>
             <h2 class="font_profile">Purchase History</h2>

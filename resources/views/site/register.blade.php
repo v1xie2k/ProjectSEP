@@ -60,6 +60,14 @@
                         <div class="error"> {{$message}} </div>
                     @enderror
                 </div>
+                <div class="mb-3">
+                    <label class="form-label">Nomor Telp: </label><br>
+                    <input type="text" name="telp" class="telp" value="{{ old('telp') }}"
+                        aria-describedby="emailHelp" style="width: 100%;">
+                    @error('telp')
+                        <div class="error"> {{$message}} </div>
+                    @enderror
+                </div>
                 <button type="submit" class="btn btn-success">Register</button>
             </form>
 

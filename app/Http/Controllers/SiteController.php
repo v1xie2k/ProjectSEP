@@ -55,7 +55,8 @@ class SiteController extends Controller
             'name' => 'required|min:4|max:25',
             'email' => ['required', 'email', new CheckEmail],
             'password' => 'required|confirmed',
-            'alamat' => 'required'
+            'alamat' => 'required',
+            'telp' => 'required | numeric | min:10000000000 | max: 999999999999'
         ]);
         $data = $request->all();
         $data["password"] = Hash::make($request->password);

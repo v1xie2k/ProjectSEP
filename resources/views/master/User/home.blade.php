@@ -28,7 +28,7 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Alamat</th>
-                        <th>Saldo</th>
+                        <th>NoTelp</th>
                         <th style="text-align: center">Action</th>
                     </tr>
                 </thead>
@@ -72,7 +72,7 @@
                 { data: 'name', name: 'name' },
                 { data: 'email', name: 'email' },
                 { data: 'alamat', name: 'alamat' },
-                { data: 'saldo', name: 'saldo' },
+                { data: 'telp', name: 'telp' },
                 { data: 'btnDelete', name: 'btnDelete' }
             ]
         });
