@@ -43,6 +43,7 @@
                 <table>
                     <thead>
                         <th>Date</th>
+                        <th>Time</th>
                         <th>Amount</th>
                         <th>Detail</th>
                     </thead>
@@ -50,9 +51,19 @@
                         @if ($htrans)
                             @foreach ($htrans as $val)
                                 <tr id="tabel_history">
-                                    <td>{{$val->date}}</td>
+                                    <td>{{substr($val->created_at,0,10)}}</td>
+                                    <td>{{substr($val->created_at,10,10)}}</td>
                                     <td>{{$val->total}}</td>
-                                    <td><a href="{{url('home/user/history/trans/detail/'.$val->id)}}" class="btn btn-secondary">Detail</a></td>
+                                    @if ($val->status_trans == 1)
+                                        <form action="{{url('home/cart/buy/'.$val->id)}}" method="post">
+                                            @csrf
+                                            <input type="hidden" name="htrans" value="{{$val}}">
+                                            <input type="hidden" name="type" value="pending">
+                                            <td><button class="btn btn-success">Pay</button></td>
+                                        </form>
+                                    @else
+                                        <td><a href="{{url('home/user/history/trans/detail/'.$val->id)}}" class="btn btn-secondary">Detail</a></td>
+                                    @endif
                                 </tr>
                             @endforeach
                         @else

@@ -497,6 +497,16 @@ form{
 
 
 /* cart */
+.menuContainer{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items:flex-start;
+    justify-content: center;
+}
+
 .tempMenu{
     width: 100%;
     height: 100vh;

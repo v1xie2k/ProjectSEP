@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use App\Mail\InvoiceMail;
 use App\Models\Cart;
 use App\Models\Dtrans;
@@ -120,97 +121,113 @@ class CartController extends Controller
 
             $snapToken = null;
 
-            if($request->tipe == "delivery"){
-                try {
-                    $carts = json_decode($request->item);
-                    $ekspedisi = json_decode($request->ekspedisi);
-                    $htrans = json_decode($request->htrans);
-                    $user = getYangLogin();
-                    $totalPurchase = $htrans->total;
-                    // dd($htrans->total);
-                    $item = [];
-                    foreach($carts as $val)
-                    {
+            if($request->type == "pending"){
+                $htrans = json_decode($request->htrans);
+                $snapToken = $htrans->token;
+            } else{
+                if($request->tipe == "delivery"){
+                    try {
+                        $carts = json_decode($request->item);
+                        $ekspedisi = json_decode($request->ekspedisi);
+                        $htrans = json_decode($request->htrans);
+                        $user = getYangLogin();
+                        $totalPurchase = $htrans->total;
+                        // dd($htrans->total);
+                        $item = [];
+                        foreach($carts as $val)
+                        {
 
-                        $temp = [];
+                            $temp = [];
+                            $temp = array(
+                                'id'=> $val->id_menu,
+                                "name"=> $val->name_menu,
+                                "price"=> $val->price,
+                                "quantity"=> $val->quantity,
+                            );
+                            array_push($item, $temp);
+                        }
                         $temp = array(
-                            'id'=> $val->id_menu,
-                            "name"=> $val->name_menu,
-                            "price"=> $val->price,
-                            "quantity"=> $val->quantity,
+                            'id'=> $ekspedisi->id,
+                            "name"=> $ekspedisi->name,
+                            "price"=> $ekspedisi->ongkir,
+                            "quantity"=> 1,
                         );
                         array_push($item, $temp);
+
+                        $params = array(
+                            'transaction_details' => array(
+                                'order_id' => uniqid(),
+                                'gross_amount' => $totalPurchase ,
+                            ),
+                            'item_details' => $item,
+                            'customer_details' => array(
+                                'first_name' => $user->name,
+                                'last_name' => $user->name,
+                                'email' => $user->email,
+                                'phone' => '08111222333',
+                            ),
+                        );
+                        $snapToken = Snap::getSnapToken($params);
+                        $data['token'] = $snapToken;
+                        Htrans::where('id',$htrans->id)->update(['token' => $snapToken]);
+                    } catch (\Exception $e) {
+                        echo $e->getMessage();
                     }
-                    $temp = array(
-                        'id'=> $ekspedisi->id,
-                        "name"=> $ekspedisi->name,
-                        "price"=> $ekspedisi->ongkir,
-                        "quantity"=> 1,
-                    );
-                    array_push($item, $temp);
-
-                    $params = array(
-                        'transaction_details' => array(
-                            'order_id' => uniqid(),
-                            'gross_amount' => $totalPurchase ,
-                        ),
-                        'item_details' => $item,
-                        'customer_details' => array(
-                            'first_name' => $user->name,
-                            'last_name' => $user->name,
-                            'email' => $user->email,
-                            'phone' => '08111222333',
-                        ),
-                    );
-                    $snapToken = Snap::getSnapToken($params);
-                    $data['token'] = $snapToken;
-                    Htrans::where('id',$htrans->id)->update(['token' => $snapToken]);
-                } catch (\Exception $e) {
-                    echo $e->getMessage();
                 }
-            }
-            else{
-                try {
-                    $carts = json_decode($request->item);
-                    $ekspedisi = json_decode($request->ekspedisi);
-                    $htrans = json_decode($request->htrans);
-                    $user = getYangLogin();
-                    $totalPurchase = $htrans->total;
-                    // dd($htrans->total);
-                    $item = [];
-                    foreach($carts as $val)
-                    {
+                else{
+                    try {
+                        $carts = json_decode($request->item);
+                        $ekspedisi = json_decode($request->ekspedisi);
+                        $htrans = json_decode($request->htrans);
+                        $user = getYangLogin();
+                        $totalPurchase = $htrans->total;
+                        // dd($htrans->total);
+                        $item = [];
+                        // dd($carts);
+                        foreach($carts as $val)
+                        {
 
-                        $temp = [];
+                            $temp = [];
+                            $temp = array(
+                                'id'=> $val->id_menu,
+                                "name"=> $val->name_menu,
+                                "price"=> $val->price,
+                                "quantity"=> $val->quantity,
+                            );
+                            array_push($item, $temp);
+                        }
+
                         $temp = array(
-                            'id'=> $val->id_menu,
-                            "name"=> $val->name_menu,
-                            "price"=> $val->price,
-                            "quantity"=> $val->quantity,
+                            'id'=> $ekspedisi->id,
+                            "name"=> $ekspedisi->name,
+                            "price"=> $ekspedisi->ongkir,
+                            "quantity"=> 1,
                         );
                         array_push($item, $temp);
-                    }
-                    array_push($item, $temp);
 
-                    $params = array(
-                        'transaction_details' => array(
-                            'order_id' => uniqid(),
-                            'gross_amount' => $totalPurchase ,
-                        ),
-                        'item_details' => $item,
-                        'customer_details' => array(
-                            'first_name' => $user->name,
-                            'last_name' => $user->name,
-                            'email' => $user->email,
-                            'phone' => '08111222333',
-                        ),
-                    );
-                    $snapToken = Snap::getSnapToken($params);
-                    $data['token'] = $snapToken;
-                    Htrans::where('id',$htrans->id)->update(['token' => $snapToken]);
-                } catch (\Exception $e) {
-                    echo $e->getMessage();
+                        $params = array(
+                            'transaction_details' => array(
+                                'order_id' => uniqid(),
+                                'gross_amount' => $totalPurchase ,
+                            ),
+                            'item_details' => $item,
+                            'customer_details' => array(
+                                'first_name' => $user->name,
+                                'last_name' => $user->name,
+                                'email' => $user->email,
+                                'phone' => '08111222333',
+                            ),
+                        );
+                        $snapToken = Snap::getSnapToken($params);
+                        $data['token'] = $snapToken;
+                        Htrans::where('id',$htrans->id)->update(['token' => $snapToken]);
+                    } catch (\Exception $e) {
+                        echo $e->getMessage();
+                    }
                 }
+                $items = Dtrans::where('id_htrans',$htrans->id)->get();
+                new InvoiceMail($items, $htrans->created_at);
+                Mail::to(getYangLogin()->email)->send(new InvoiceMail($items, $htrans->created_at));
             }
 
 
@@ -225,6 +242,7 @@ class CartController extends Controller
         $callback = $request->input('midtrans-callback');
         $temp = [];
         $callback = json_decode($callback);
+        // dd($callback);
         $temp['status_code'] = $callback->status_code;
         $temp['transaction_id'] = $callback->transaction_id;
         $temp['order_id'] = $callback->order_id;
@@ -237,7 +255,18 @@ class CartController extends Controller
             $temp['bank'] = $callback->va_numbers[0]->bank;
         }
 
-        LogTransaksi::create($temp);
+
+        $now = new DateTime();
+        if($callback->status_code == 401){
+            Htrans::where('id', (int)$request->idHtrans)->update(['status_trans' => 0, 'payment_date' => $now]);
+        }else{
+            Htrans::where('id', (int)$request->idHtrans)->update(['status_trans' => 100, 'payment_date' => $now]);
+            LogTransaksi::create($temp);
+            $htrans = Htrans::where('id', (int)$request->idHtrans)->first();
+            $items = Dtrans::where('id_htrans',$htrans->id)->get();
+            new InvoiceMail($items, $htrans->created_at);
+            Mail::to(getYangLogin()->email)->send(new InvoiceMail($items, $htrans->created_at));
+        }
         return redirect('home');
     }
     public function transactionProcess(Request $request)
@@ -313,14 +342,11 @@ class CartController extends Controller
                     "quantity"=> 1,
                 );
                 array_push($item, $temp);
+
+                return redirect('home/cart/transaction/'.$htrans->id)->with(['htrans'=>$htrans,'item'=>$item]);
             } catch (\Exception $e) {
                 echo $e->getMessage();
             }
-            $items = Dtrans::where('id_htrans',$htrans->id)->get();
-            new InvoiceMail($items, $htrans->created_at);
-
-            Mail::to(getYangLogin()->email)->send(new InvoiceMail($items, $htrans->created_at));
-            return redirect('home/cart/transaction/'.$htrans->id)->with(['htrans'=>$htrans,'item'=>$item]);
             // return view('client.cart.paymentPage',compact('snapToken','htrans'));
         }
         else{

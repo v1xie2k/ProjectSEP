@@ -26,15 +26,27 @@
                 <tr>
                     <td>{{$val->name_menu}}</td>
                     <td>{{$val->Menus->Kategories->name}}</td>
-                    <td>{{$val->price}}</td>
+                    <td>{{ 'Rp ' . number_format($val->price, 2, ',', '.') }}</td>
                     <td>{{$val->quantity}}</td>
-                    <td>{{$val->subtotal}}</td>
+                    <td>{{ 'Rp ' . number_format($val->subtotal, 2, ',', '.') }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table><br>
-    <h4>Courir of choice: {{$dtrans->Htrans->Ekspedisis->name}}</h4><br>
-    <h4>Last Balance: Rp.{{getYangLogin()->saldo}}</h4><br>
+    {{-- Status udah bayar atau belum  alamat pengiriman jg belum--}}
+    <h4>Courir of choice: {{$dtrans->Htrans->Ekspedisis->name}} - {{ 'Rp ' . number_format($dtrans->Htrans->Ekspedisis->ongkir, 2, ',', '.') }}</h4><br>
+    @if ($dtrans->Htrans->Ekspedisis->id == 5)
+        <h4>Alamat: {{$dtrans->Htrans->address}}</h4>
+    @endif
+    <h4>Transaction Status:
+        @if($dtrans->Htrans->status_trans == 1)
+            <span style="color:rgb(255, 128, 0);">Pending</span>
+        @elseif ($dtrans->Htrans->status_trans == 100)
+            <span style="color:rgb(15, 144, 15);">Success</span>
+        @else
+            <span style="color:rgb(168, 12, 12);">Canceled</span>
+        @endif
+    </h4>
     <h3>Thanks For Your Order</h3>
     <h3>ありがとうございました</h3>
 </body>

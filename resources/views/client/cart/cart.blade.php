@@ -175,6 +175,7 @@
                         <input type="hidden" name="total" value="{{ $total }}">
                         {{-- <input type="hidden" name="total" value="{{ 'Rp ' . number_format($total, 2, ',', '.') }}"> --}}
                         <input type="hidden" name="quantity" value="{{ $qty }}">
+                        <input type="hidden" name="address" value="{{ getYangLogin()->alamat }}">
                     </form>
                 </div>
             </div>

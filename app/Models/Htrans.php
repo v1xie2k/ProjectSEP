@@ -26,7 +26,8 @@ class Htrans extends Model
         'token',
         'status_trans',
         'waktu_pengiriman',
-        'alamat'
+        'alamat',
+        'address',
     ];
     public function Users(){
         return $this->belongsTo(Users::class, 'id_user','id');
