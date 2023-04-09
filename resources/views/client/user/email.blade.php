@@ -35,8 +35,8 @@
     </table><br>
     {{-- Status udah bayar atau belum  alamat pengiriman jg belum--}}
     <h4>Courir of choice: {{$dtrans->Htrans->Ekspedisis->name}} - {{ 'Rp ' . number_format($dtrans->Htrans->Ekspedisis->ongkir, 2, ',', '.') }}</h4><br>
-    @if ($dtrans->Htrans->Ekspedisis->id == 5)
-        <h4>Alamat: {{$dtrans->Htrans->address}}</h4>
+    @if ($dtrans->Htrans->Ekspedisis->id != 5)
+        <h4>Alamat: {{$dtrans->Htrans->alamat}}</h4>
     @endif
     <h4>Transaction Status:
         @if($dtrans->Htrans->status_trans == 1)
