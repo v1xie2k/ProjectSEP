@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\barangController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomePageController;
@@ -81,6 +82,12 @@ Route::prefix('admin')->middleware(['CheckRole:admin'])->group(function () {
         Route::post('doedit',[MenuController::class,'doedit']);
         Route::get('details/{id}',[MenuController::class,'detail']);
         Route::get('lprod',[MenuController::class,'lprod']);
+    });
+
+    Route::prefix('barang')->group(function () {
+        Route::get('',[barangController::class,'home']);
+        Route::get('lbarang',[barangController::class,'lbarang']);
+        Route::get('delete/{id}',[barangController::class,'delete']);
     });
 
     Route::prefix('transaction')->group(function () {

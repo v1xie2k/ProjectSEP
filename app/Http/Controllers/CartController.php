@@ -313,7 +313,6 @@ class CartController extends Controller
 
             try {
                 $item = [];
-                dd($data);
                 $htrans = Htrans::create($data);
                 foreach($carts as $val)
                 {

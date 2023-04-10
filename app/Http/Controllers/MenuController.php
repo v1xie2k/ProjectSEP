@@ -129,6 +129,7 @@ class MenuController extends Controller
     {
         $menus = Menu::get();
         // dd($menus);
+
         return DataTables::of($menus)
             ->addColumn('kategori', function ($data) {
                 $load = KategoriMenu::where('id', $data->id_kategori)->pluck('name')->first();
@@ -139,11 +140,26 @@ class MenuController extends Controller
             ->addColumn('btnDelete', function ($data) {
                 return "<a href='" . url("admin/menu/edit/$data->id") . "' class='btn btn-warning' onclick='return confirm(`Are you sure you want to edit $data->name ?`);'>Edit</a><br><br><a href='" . url("admin/menu/delete/$data->id") . "' class='btn btn-danger' onclick='return confirm(`Are you sure you want to delete $data->name ?`);'>Delete</a>";
             })
+            ->addColumn('resep', function ($data) {
+                $load = detail_resep::where('id_resep', $data->resep_id)->get();
+                // dd($load);
+                $a = "<ul>";
+                for ($i=0; $i < count($load); $i++) {
+                    $idbarang=$load[$i]["id_barang"];
+                    $jumlah=$load[$i]["qty"];
+
+                    $load2 = barang::where('id', $idbarang)->pluck('name')->first();
+
+                    $a = $a ."<li>" . $jumlah . "-" . $load2 . "</li>";
+                };
+                $a = $a . "</ul>";
+                return $a;
+            })
             ->addColumn('picture', function ($data) {
                 return "<img src='" . asset("storage/items/$data->id.jpg") . "' class='card-img-top' alt='...' style='height:150px;width:150px;'>";
             })
 
-            ->rawColumns(['btnDelete', 'kategori', 'picture'])
+            ->rawColumns(['btnDelete', 'kategori', 'picture', 'resep'])
             ->make(true);
     }
 

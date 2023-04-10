@@ -112,41 +112,11 @@
                                 {{-- {{ $total }} --}}
                             </div>
 
-                        </div>
-
-                        <br>
-                        <div class="textCart3">
-                            <label for="alamat" style="padding-right: 20px">PilihAlamat Pengiriman :</label>
-                        </div>
-
-                        <div class="textCart3">
-
-                            <select name="alamat" id="alamat">
-                                @foreach ($alamats as $value)
-                                    <option value="{{ $value }}">{{ $value }}</option>
-                                @endforeach
-                                    <option value="other">Tambah alamat baru</option>
-                            </select>
-                        </div>
-
-                        <div class="textCart3">
-                            <label for="alamat" style="padding-right: 20px">Tambah Alamat Pengiriman Baru :</label>
-                        </div>
-
-                        <div class="textCart3">
-                            <input type="text" name="alamatBaru" id="alamatBaru">
-                        </div>
-                        <div class="textCart3">
-                            <label for="waktu_pengiriman">Delivery Time</label>
-                        </div>
-                        <div class="textCart3">
-                            <input type="datetime-local" id="waktu_pengiriman" name="waktu_pengiriman">
-                        </div>
-                        <br>
+                        </div><br>
 
                         <div class="textCart3">
                             <div class="t1" >
-                                <select name="id_ekspedisi" id="ekspedisi" style="color: #ebcdba; background:none;border: none;background-color: black;" onchange="calc_total()">
+                                <select name="id_ekspedisi" id="ekspedisi" style="color: #ebcdba; background:none;border: none;background-color: black;">
                                     @foreach ($ekspedisis as $val)
                                         <option value="{{ $val->id }}"> {{ $val->name }} -
                                             {{ 'Rp ' . number_format($val->ongkir, 2, ',', '.') }}
@@ -156,6 +126,38 @@
                                 </select>
                             </div>
                         </div>
+
+                        <br>
+                        <div class="textCart3">
+                            <label for="alamat" style="padding-right: 20px" id="pilihAlamatlabel" hidden>Pilih Alamat Pengiriman :</label>
+                        </div>
+
+                        <div class="textCart3">
+
+                            <select name="alamat" id="alamat" hidden>
+                                @foreach ($alamats as $value)
+                                    <option value="{{ $value }}">{{ $value }}</option>
+                                @endforeach
+                                    <option value="other">Tambah alamat baru</option>
+                            </select>
+                        </div>
+
+                        <div class="textCart3">
+                            <label for="alamat" style="padding-right: 20px" id="tambahAlamat" hidden>Tambah Alamat Pengiriman Baru :</label>
+                        </div>
+
+                        <div class="textCart3">
+                            <input type="text" name="alamatBaru" id="alamatBaru" hidden>
+                        </div>
+                        <div class="textCart3">
+                            <label for="waktu_pengiriman">Delivery Time</label>
+                        </div>
+                        <div class="textCart3">
+                            <input type="datetime-local" id="waktu_pengiriman" name="waktu_pengiriman">
+                        </div>
+                        <br>
+
+
                         <hr>
                         <label style="color: #ebcdba">Note: Shipping Cost have not been added to Grand Total</label>
 
@@ -206,6 +208,27 @@
         const dateControl = document.querySelector('input[type="datetime-local"]');
         dateControl.value = dateNow;
         dateControl.min = dateNow;
+
+
     });
+    $('select').on('change', function() {
+
+        if (this.value == 1) {
+            document.getElementById("alamatBaru").hidden = true
+            document.getElementById("tambahAlamat").hidden = true
+            document.getElementById("pilihAlamatlabel").hidden = true
+            document.getElementById("alamat").hidden = true
+        }
+        else if(this.value > 1){
+            $('#alamatBaru').removeAttr('hidden');
+            $('#tambahAlamat').removeAttr('hidden');
+            $('#pilihAlamatlabel').removeAttr('hidden');
+            $('#alamat').removeAttr('hidden');
+        }
+        else{
+
+        }
+    });
+
 </script>
 @stop

@@ -116,6 +116,7 @@
                         <th>Kategori</th>
                         <th>Price</th>
                         <th>Description</th>
+                        <th>Resep</th>
                         <th>Pict</th>
                         <th>Action</th>
                     </tr>
@@ -148,6 +149,7 @@
                 { data: 'kategori', name: 'kategori' ,className:'hitam'},
                 { data: 'harga', name: 'harga', render: $.fn.dataTable.render.number( '.', ',', 2, 'Rp' ),className: "text-right hitam" },
                 { data: 'deskripsi', name: 'deskripsi', className:'hitam'},
+                { data: 'resep', name: 'resep' ,className:'hitam'},
                 { data: 'picture', name: 'picture' ,className:'hitam'},
                 { data: 'btnDelete', name: 'btnDelete' ,className:'hitam'}
             ]
