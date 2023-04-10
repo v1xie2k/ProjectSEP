@@ -24,6 +24,8 @@
                 @endif
                 </h3><br>
 
+                <h3 style="color: #ffffff;">Tanggal Transaksi {{substr($detailHtrans->created_at,0,10)}}</h3><br>
+                <h3 style="color: #ffffff;">Waktu Pembayaran {{substr($detailHtrans->created_at,10,10)}}</h3><br>
                 <h3 style="color: #ffffff;">Tanggal Pembayaran {{substr($detailHtrans->payment_date,0,10)}}</h3><br>
                 <h3 style="color: #ffffff;">Waktu Pembayaran {{substr($detailHtrans->payment_date,10,10)}}</h3><br>
                 <h3 style="color: #ffffff;">
