@@ -87,7 +87,7 @@ Route::prefix('admin')->middleware(['CheckRole:admin'])->group(function () {
     Route::prefix('barang')->group(function () {
         Route::get('',[barangController::class,'home']);
         Route::get('lbarang',[barangController::class,'lbarang']);
-        Route::get('delete/{id}',[barangController::class,'delete']);
+        // Route::get('delete/{id}',[barangController::class,'delete']);
     });
 
     Route::prefix('transaction')->group(function () {

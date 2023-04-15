@@ -10,8 +10,10 @@ class barangController extends Controller
 {
     public function home(Request $request)
     {
-        // $menus = Menu::get();
-        return view('master.barang.home');
+        $barang = barang::orderBy('name','asc')->get();
+        // dd($barang);
+        if(isLogin())return view('master.barang.home',compact('barang'));
+        abort(403);
     }
 
     public function lbarang()
@@ -26,18 +28,18 @@ class barangController extends Controller
         ->make(true);
     }
 
-    public function delete(Request $request)
-    {
-        $menu = barang::find($request->id);
-        if($menu){
-            if($menu->delete()){
-                return redirect()->back()->with('pesan',['tipe'=>1, 'isi'=> 'Success delete menu']);
-            }
-            else{
-                return redirect()->back()->with('pesan',['tipe'=>0, 'isi'=> 'Failed delete menu']);
-            }
-        }else{
-            return redirect()->back()->with('pesan',['tipe'=>0, 'isi'=> 'Gagal delete data tidak ditemukan']);
-        }
-    }
+    // public function delete(Request $request)
+    // {
+    //     $menu = barang::find($request->id);
+    //     if($menu){
+    //         if($menu->delete()){
+    //             return redirect()->back()->with('pesan',['tipe'=>1, 'isi'=> 'Success delete menu']);
+    //         }
+    //         else{
+    //             return redirect()->back()->with('pesan',['tipe'=>0, 'isi'=> 'Failed delete menu']);
+    //         }
+    //     }else{
+    //         return redirect()->back()->with('pesan',['tipe'=>0, 'isi'=> 'Gagal delete data tidak ditemukan']);
+    //     }
+    // }
 }

@@ -27,11 +27,11 @@
                         <th>ID User</th>
                         <th>Name</th>
                         <th>Stok</th>
-                        <th style="text-align: center">Action</th>
+                        {{-- <th style="text-align: center">Action</th> --}}
                     </tr>
                 </thead>
                 {{-- <tbody>
-                    @foreach ($users as $user)
+                    @foreach ($barang as $user)
                         <tr>
                             <td>{{$user->id}}</td>
                             <td>{{$user->name}}</td>
@@ -62,14 +62,14 @@
                 url: "{{ url('admin/barang/lbarang') }}",
             },
             'columnDefs': [ {
-                'targets': [3], /* column index */
+                'targets': [2], /* column index */
                 'orderable': false, /* true or false */
                 }],
             columns: [
                 { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
                 { data: 'stok', name: 'stok' },
-                { data: 'btnDelete', name: 'btnDelete' }
+                // { data: 'btnDelete', name: 'btnDelete' }
             ]
         });
     });
