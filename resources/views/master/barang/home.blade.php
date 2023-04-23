@@ -19,6 +19,23 @@
         @endif
     @endif
 
+    <h1>New Item</h1>
+
+        <form action="{{ url('/admin/barang/docreate') }}" method="post" enctype="multipart/form-data">
+            @csrf
+
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" name="name" class="form-control" value="{{ old('name') }}"
+                    aria-describedby="barangNama" style="width: 117%;">
+                @error('name')
+                    <div class="error"> {{$message}} </div> <br>
+                @enderror
+            </div>
+
+            <br>
+            <button type="submit" class="btn btn-success" style="width: 117%;">Add</button>
+        </form><br>
         <h1>List Stok Barang</h1>
         <div class="card-body">
             <table class="table responsive table-dark" id="table">

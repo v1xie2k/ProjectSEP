@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\barang;
+use App\Models\detail_resep;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -28,18 +29,45 @@ class barangController extends Controller
         ->make(true);
     }
 
-    // public function delete(Request $request)
-    // {
-    //     $menu = barang::find($request->id);
-    //     if($menu){
-    //         if($menu->delete()){
-    //             return redirect()->back()->with('pesan',['tipe'=>1, 'isi'=> 'Success delete menu']);
-    //         }
-    //         else{
-    //             return redirect()->back()->with('pesan',['tipe'=>0, 'isi'=> 'Failed delete menu']);
-    //         }
-    //     }else{
-    //         return redirect()->back()->with('pesan',['tipe'=>0, 'isi'=> 'Gagal delete data tidak ditemukan']);
-    //     }
-    // }
+    public function pembelian(Request $request)
+    {
+        $item = barang::get();
+        // dd($barang);
+        if(isLogin())return view('master.pembelian.pembelian',compact('item'));
+        abort(403);
+    }
+
+    public function doPembelian(Request $request)
+    {
+        $data = $request->all();
+        $items = $request->input('items', []);
+        $quantities = $request->input('qty', []);
+
+        for ($i=0; $i < count($quantities); $i++) {
+            if ($quantities[$i] != '') {
+                $dataResepDetail['id_barang'] = $items[$i];
+                $dataResepDetail['qty'] = $quantities[$i];
+                $barang = barang::find($items[$i]);
+                $qtyAkhir = $barang['stok'] + $quantities[$i];
+                $barang->stok = $qtyAkhir;
+                $barang->save();
+            };
+        }
+        return redirect("admin/barang/pembelian")->with('pesan',['tipe'=>1, 'isi'=> 'Berhasil tambah stock']);
+    }
+
+    public function docreate(Request $request)
+    {
+
+        $data = $request->all();
+        $data["stok"] = 0;
+        $id = barang::create($data);
+
+        if($id){
+            return redirect()->back()->with('pesan',['tipe'=>1, 'isi'=> 'Berhasil insert']);
+        }
+        else{
+            return redirect()->back()->with('pesan',['tipe'=>0, 'isi'=> 'Gagal insert']);
+        }
+    }
 }

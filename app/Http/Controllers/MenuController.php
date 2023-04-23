@@ -29,7 +29,8 @@ class MenuController extends Controller
         $item = Menu::where('id',$id)->get();
         $categories = KategoriMenu::get();
         $item = $item[0];
-        return view('master.Items.edit',compact('item','categories'));
+        $barang = barang::get();
+        return view('master.Items.edit',compact('item','categories','barang'));
     }
 
     public function docreate(Request $request)
@@ -92,6 +93,23 @@ class MenuController extends Controller
             'harga' => 'required|numeric'
         ]);
         $data = $request->all();
+        $items = $request->input('items', []);
+        $quantities = $request->input('qty', []);
+        $id = Menu::create($data);
+        $dataResep['id_menu'] = $id->id;
+        $idresep = resep::create($dataResep);
+
+        for ($i=0; $i < count($quantities); $i++) {
+            if ($quantities[$i] != '') {
+                $dataResepDetail['id_resep'] = $idresep->id;
+                $dataResepDetail['id_barang'] = $items[$i];
+                $dataResepDetail['qty'] = $quantities[$i];
+                $detailResep = detail_resep::create($dataResepDetail);
+            };
+        }
+
+        $data['resep_id'] = $idresep->id;
+
         if($request->photo != null){
             // dd($request->pict);
             Storage::disk('public')->delete('items/'.$request->pict);
