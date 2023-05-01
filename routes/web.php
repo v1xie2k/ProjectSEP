@@ -8,6 +8,7 @@ use App\Http\Controllers\MasterReportController;
 use App\Http\Controllers\MasterTopupController;
 use App\Http\Controllers\MasterUserController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\rekonsiliasiController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\transactionController;
 use App\Http\Controllers\UserController;
@@ -126,4 +127,10 @@ Route::prefix('admin')->middleware(['CheckRole:admin'])->group(function () {
         Route::get('data',[MasterReportController::class,'data']);
         Route::post('filterDate',[MasterReportController::class,'filterDate']);
     });
+
+    Route::prefix('rekonsiliasi')->group(function () {
+        Route::get('',[rekonsiliasiController::class,'home']);
+        Route::post('docreate',[rekonsiliasiController::class,'docreate']);
+    });
+
 });
