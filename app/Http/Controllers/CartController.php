@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use DateTime;
 use App\Mail\InvoiceMail;
+use App\Models\barang;
 use App\Models\Cart;
+use App\Models\detail_resep;
 use App\Models\Dtrans;
 use App\Models\Ekspedisi;
 use App\Models\Htrans;
 use App\Models\LogTransaksi;
 use App\Models\Menu;
+use App\Models\resep;
 use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
@@ -153,6 +156,10 @@ class CartController extends Controller
                             "quantity"=> 1,
                         );
                         array_push($item, $temp);
+
+
+
+
 
                         $params = array(
                             'transaction_details' => array(
@@ -316,6 +323,18 @@ class CartController extends Controller
                 $htrans = Htrans::create($data);
                 foreach($carts as $val)
                 {
+                    $menu = Menu::find($val->id_menu);
+                    $resep = detail_resep::where('id_resep',$menu->resep_id)->get();
+                    foreach($resep as $val2)
+                    {
+                        $barang = barang::find($val2->id_barang);
+                        $qtyAkhir = $barang['stok'] - $val2->qty;
+                        $barang->stok = $qtyAkhir;
+                        $barang->save();
+                    }
+                }
+                foreach($carts as $val)
+                {
                     $dtransTemp = [];
                     $dtransTemp['id_htrans'] = $htrans->id;
                     $dtransTemp['id_menu'] = $val->id_menu;
@@ -334,6 +353,7 @@ class CartController extends Controller
                     Dtrans::create($dtransTemp);
                     Cart::where('id_user',getYangLogin()->id)->where('id_menu',$val->id_menu)->delete();
                 }
+
                 $temp = array(
                     'id'=> $ekspedisi->id,
                     "name"=> $ekspedisi->name,

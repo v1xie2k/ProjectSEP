@@ -55,7 +55,7 @@
             </button>
 
             <br><br>
-            <button type="submit" class="btn btn-success" style="width: 117%;">Add</button>
+            <button type="submit" class="btn btn-success" style="width: 117%;">Tutup toko</button>
         </form><br>
         @if (Session::has('pesan'))
             @php($pesan = Session::get('pesan'))
