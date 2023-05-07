@@ -35,7 +35,7 @@
                                 <td>
                                     <select name='items[]' class="form-control">
                                         @foreach ($item as $key => $i)
-                                            <option value="{{ $i->id }}">{{ $i->name }}</option>
+                                            <option value="{{ $i->id }}-{{$i->name}}">{{ $i->name }}</option>
                                         @endforeach
                                     </select>
                                 </td>
@@ -79,7 +79,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: "{{ url('admin/menu/lprod') }}",
+                url: "{{ url('admin/rekonsiliasi/lprod') }}",
             },
             'columnDefs': [ {
                 'targets': [5,6], /* column index */
@@ -111,7 +111,7 @@
                     <td>
                         <select name='items[]' class="form-control">
                                         @foreach ($item as $key => $i)
-                                            <option value="{{ $i->id }}">{{ $i->name }}</option>
+                                            <option value="{{ $i->id }}-{{$i->name}}">{{ $i->name }}</option>
                                         @endforeach
                                     </select>
                     </td>

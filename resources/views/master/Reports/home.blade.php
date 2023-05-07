@@ -31,14 +31,7 @@
                 <button type="submit" class="btn btn-success" style="height: 30px; width:100px; line-height:0px; ">Filter</button>
             </div>
         </form>
-        {{-- @if (Session::has('pesan'))
-            @php($pesan = Session::get('pesan'))
-            @if ($pesan['tipe'] == 0)
-                <div class="alert alert-danger">{{ $pesan['isi'] }}</div>
-            @else
-                <div class="alert alert-success">{{ $pesan['isi'] }}</div>
-            @endif
-        @endif --}}
+
         <br><br>
         <h2>Total Trans : {{$total_trans}} </h2>
         <h2>Total qty sold : {{$total_qty}}</h2>
@@ -71,6 +64,45 @@
                 <canvas id="myChart"></canvas>
             </div>
         </div>
+        <br>
+        <h1>Menu Ter-Populer</h1>
+        <form action="{{ url('/admin/report/filtermonth') }}" method="post" enctype="multipart/form-data">
+            @csrf
+            <div class="mb-3">
+                <select name="filtermonth" id="filtermonth">
+                    <option value="0">Bulan Ini</option>
+                    <option value="1">Bulan Lalu</option>
+                </select>
+                <button type="submit" class="btn btn-success" style="height: 30px; width:100px; line-height:0px; ">Filter</button>
+            </div>
+        </form>
+        <table border="1">
+            <thead>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Picture</th>
+                <th>Price</th>
+                <th>Total Sold</th>
+            </thead>
+            <tbody>
+                @php
+                    $ctr = 1;
+                    // dd($menuFav);
+                @endphp
+                @foreach ($menuFav as $val)
+                    <tr>
+                        <td>{{$ctr++}}</td>
+                        <td>{{$val['name_menu']}}</td>
+                        <td>
+                            <img src={{asset("storage/items/".$val['id'].".jpg")}} class='card-img-top' alt='...' style='height:100px;width:100px;'>
+                        </td>
+                        <td>{{$val['price']}}</td>
+                        <td>{{$val['qty']}}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <br>
     </div>
 
 

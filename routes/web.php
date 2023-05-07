@@ -126,6 +126,7 @@ Route::prefix('admin')->middleware(['CheckRole:admin'])->group(function () {
         Route::get('',[MasterReportController::class,'home']);
         Route::get('data',[MasterReportController::class,'data']);
         Route::post('filterDate',[MasterReportController::class,'filterDate']);
+        Route::post('filtermonth',[MasterReportController::class,'filtermonth']);
     });
 
     Route::prefix('rekonsiliasi')->group(function () {
