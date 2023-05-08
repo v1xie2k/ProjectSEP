@@ -51,7 +51,7 @@
                         <td>{{$val->Users->name}}</td>
                         <td>{{$val->Ekspedisis->name}}</td>
                         <td>{{$val->quantity}}</td>
-                        <td>{{$val->total}}</td>
+                        <td style="text-align: right">Rp. {{$val->total}}</td>
                         <td>{{$val->date}}</td>
                     </tr>
                 @endforeach
@@ -96,7 +96,7 @@
                         <td>
                             <img src={{asset("storage/items/".$val['id'].".jpg")}} class='card-img-top' alt='...' style='height:100px;width:100px;'>
                         </td>
-                        <td>{{$val['price']}}</td>
+                        <td style="text-align: right">Rp. {{$val['price']}}</td>
                         <td>{{$val['qty']}}</td>
                     </tr>
                 @endforeach

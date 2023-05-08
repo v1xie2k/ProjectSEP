@@ -16,7 +16,6 @@ class MasterReportController extends Controller
     {
         // $end_date = $request->end_date ?  Carbon::parse($request->end_date) : new Carbon('last day of this month');
         //Carbon::parse('11/21/2022') m/d/y
-
         if(Session::get('start_date') == null)
         {
             $start_date = new Carbon('first day of this month');
@@ -29,11 +28,11 @@ class MasterReportController extends Controller
         }
         if(Session::get('start_month') == null){
             $start_date = new Carbon('first day of this month');
-            Session::put('start_date',$start_date);
+            Session::put('start_month',$start_date);
         }
         if(Session::get('end_month') == null){
             $end_date = new Carbon('last day of this month');
-            Session::put('end_date',$end_date);
+            Session::put('end_month',$end_date);
         }
         $start = Session::get('start_date');
         $end = Session::get('end_date');
@@ -45,7 +44,7 @@ class MasterReportController extends Controller
         foreach ($menuFav as $val) {
             $id = $val->id_menu;
             $qty = $val->quantity;
-            $price = $val->price;
+            $price = number_format($val->price, 0, ',', '.');
             $name = $val->name_menu;
             $stat = 0;
             for ($i=0; $i < count($arrMenuFav); $i++) {
@@ -73,6 +72,8 @@ class MasterReportController extends Controller
             $total_income += $value->total;
             $total_qty += $value->quantity;
             $total_trans++;
+            $jum = number_format($value->total, 0, ',', '.');
+            $value['total'] = $jum ;
         }
         return view('master.Reports.home',compact('start','end','total_trans','total_income','total_qty','invoice','menuFav'));
     }
