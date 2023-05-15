@@ -107,18 +107,32 @@ class MasterReportController extends Controller
     public function data(Request $request)
     {
         $year = date("Y");
-        $order["Jan"] = Htrans::whereMonth("created_at",1)->whereYear("created_at",$year)->sum('total');
-        $order["Feb"] = Htrans::whereMonth("created_at",2)->whereYear("created_at",$year)->sum('total');
-        $order["Mar"] = Htrans::whereMonth("created_at",3)->whereYear("created_at",$year)->sum('total');
-        $order["Apr"] = Htrans::whereMonth("created_at",4)->whereYear("created_at",$year)->sum('total');
-        $order["Mei"] = Htrans::whereMonth("created_at",5)->whereYear("created_at",$year)->sum('total');
-        $order["Jun"] = Htrans::whereMonth("created_at",6)->whereYear("created_at",$year)->sum('total');
-        $order["Jul"] = Htrans::whereMonth("created_at",7)->whereYear("created_at",$year)->sum('total');
-        $order["Aug"] = Htrans::whereMonth("created_at",8)->whereYear("created_at",$year)->sum('total');
-        $order["Sep"] = Htrans::whereMonth("created_at",9)->whereYear("created_at",$year)->sum('total');
-        $order["Okt"] = Htrans::whereMonth("created_at",10)->whereYear("created_at",$year)->sum('total');
-        $order["Nov"] = Htrans::whereMonth("created_at",11)->whereYear("created_at",$year)->sum('total');
-        $order["Des"] = Htrans::whereMonth("created_at",12)->whereYear("created_at",$year)->sum('total');
+        $order["Jan"] = Htrans::where("id_ekspedisi",">",1)->whereMonth("created_at",1)->whereYear("created_at",$year)->sum('total');
+        $order["Feb"] = Htrans::where("id_ekspedisi",">",1)->whereMonth("created_at",2)->whereYear("created_at",$year)->sum('total');
+        $order["Mar"] = Htrans::where("id_ekspedisi",">",1)->whereMonth("created_at",3)->whereYear("created_at",$year)->sum('total');
+        $order["Apr"] = Htrans::where("id_ekspedisi",">",1)->whereMonth("created_at",4)->whereYear("created_at",$year)->sum('total');
+        $order["Mei"] = Htrans::where("id_ekspedisi",">",1)->whereMonth("created_at",5)->whereYear("created_at",$year)->sum('total');
+        $order["Jun"] = Htrans::where("id_ekspedisi",">",1)->whereMonth("created_at",6)->whereYear("created_at",$year)->sum('total');
+        $order["Jul"] = Htrans::where("id_ekspedisi",">",1)->whereMonth("created_at",7)->whereYear("created_at",$year)->sum('total');
+        $order["Aug"] = Htrans::where("id_ekspedisi",">",1)->whereMonth("created_at",8)->whereYear("created_at",$year)->sum('total');
+        $order["Sep"] = Htrans::where("id_ekspedisi",">",1)->whereMonth("created_at",9)->whereYear("created_at",$year)->sum('total');
+        $order["Okt"] = Htrans::where("id_ekspedisi",">",1)->whereMonth("created_at",10)->whereYear("created_at",$year)->sum('total');
+        $order["Nov"] = Htrans::where("id_ekspedisi",">",1)->whereMonth("created_at",11)->whereYear("created_at",$year)->sum('total');
+        $order["Des"] = Htrans::where("id_ekspedisi",">",1)->whereMonth("created_at",12)->whereYear("created_at",$year)->sum('total');
+
+        $year = date("Y");
+        $order["Jan1"] = Htrans::where("id_ekspedisi",1)->whereMonth("created_at",1)->whereYear("created_at",$year)->sum('total');
+        $order["Feb1"] = Htrans::where("id_ekspedisi",1)->whereMonth("created_at",2)->whereYear("created_at",$year)->sum('total');
+        $order["Mar1"] = Htrans::where("id_ekspedisi",1)->whereMonth("created_at",3)->whereYear("created_at",$year)->sum('total');
+        $order["Apr1"] = Htrans::where("id_ekspedisi",1)->whereMonth("created_at",4)->whereYear("created_at",$year)->sum('total');
+        $order["Mei1"] = Htrans::where("id_ekspedisi",1)->whereMonth("created_at",5)->whereYear("created_at",$year)->sum('total');
+        $order["Jun1"] = Htrans::where("id_ekspedisi",1)->whereMonth("created_at",6)->whereYear("created_at",$year)->sum('total');
+        $order["Jul1"] = Htrans::where("id_ekspedisi",1)->whereMonth("created_at",7)->whereYear("created_at",$year)->sum('total');
+        $order["Aug1"] = Htrans::where("id_ekspedisi",1)->whereMonth("created_at",8)->whereYear("created_at",$year)->sum('total');
+        $order["Sep1"] = Htrans::where("id_ekspedisi",1)->whereMonth("created_at",9)->whereYear("created_at",$year)->sum('total');
+        $order["Okt1"] = Htrans::where("id_ekspedisi",1)->whereMonth("created_at",10)->whereYear("created_at",$year)->sum('total');
+        $order["Nov1"] = Htrans::where("id_ekspedisi",1)->whereMonth("created_at",11)->whereYear("created_at",$year)->sum('total');
+        $order["Des1"] = Htrans::where("id_ekspedisi",1)->whereMonth("created_at",12)->whereYear("created_at",$year)->sum('total');
 
         return $order;
     }

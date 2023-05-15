@@ -58,7 +58,7 @@
             </tbody>
         </table>
         <br><br>
-        <h1>Omzet Graph </h1>
+        <h1>Omzet Graph This Year</h1>
         <div style="width: 100%; margin: auto;background-color: whitesmoke;border-radius: 10%;">
             <div style="width: 90%; margin: auto;">
                 <canvas id="myChart"></canvas>
@@ -73,7 +73,7 @@
                     <option value="0">Bulan Ini</option>
                     <option value="1">Bulan Lalu</option>
                 </select>
-                <button type="submit" class="btn btn-success" style="height: 30px; width:100px; line-height:0px; ">Filter</button>
+                <button type="submit" class="btn btn-success" style="height: 30px; width:100px; line-height:0px; " id="filter">Filter</button>
             </div>
         </form>
         <table border="1">
@@ -121,7 +121,7 @@
             const data = {
                 labels: ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"],
                 datasets: [{
-                    label: "Omzet per bulan",
+                    label: "Omzet per bulan Delivery",
                     data: [
                         parseInt(response.Jan),
                         parseInt(response.Feb),
@@ -139,7 +139,28 @@
                     fill: false,
                     borderColor: 'rgb(75, 192, 192)',
                     tension: 0.1
-                }]
+                },
+                {
+                    label: "Omzet per bulan TakeAway",
+                    data: [
+                        parseInt(response.Jan1),
+                        parseInt(response.Feb1),
+                        parseInt(response.Mar1),
+                        parseInt(response.Apr1),
+                        parseInt(response.Mei1),
+                        parseInt(response.Jun1),
+                        parseInt(response.Jul1),
+                        parseInt(response.Aug1),
+                        parseInt(response.Sep1),
+                        parseInt(response.Okt1),
+                        parseInt(response.Nov1),
+                        parseInt(response.Des1)
+                    ],
+                    fill: false,
+                    borderColor: 'rgb(128, 21, 235)',
+                    tension: 0.1
+                },
+            ]
             };
 
             var ctx = $('#myChart');
@@ -154,7 +175,12 @@
         error: function(xhr) {
             console.log(xhr.responseJSON);
         }
-    });
+    },
+    );
+    // $("#filter").click(function(){
+    //     var filtermonth = $('#filtermonth').find(":selected").val();
+    //     alert(filtermonth)
+    // });
   });
 </script>
 @endsection
