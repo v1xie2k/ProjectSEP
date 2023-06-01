@@ -27,6 +27,8 @@
                         <thead>
                             <th class="text-center">Item Name</th>
                             <th class="text-center">Qty</th>
+                            <th class="text-center">Sub Total</th>
+                            <th class="text-center">Supplier</th>
                             <th class="text-center">Action</th>
                         </thead>
 
@@ -42,6 +44,10 @@
 
                                 <td><input type="number" name='qty[]' placeholder='Enter Qty'
                                         class="form-control qty" step="0" min="1"/></td>
+                                <td><input type="number" name='harga[]' placeholder='Enter Sub Total'
+                                    class="form-control harga" step="0" min="1"/></td>
+                                <td><input type="text" name='supplier[]' placeholder='Enter Supplier'
+                                    class="form-control supplier" /></td>
                                 <td>
                                     <input type="button" value="Remove" class="btn btn-danger remove">
                                 </td>
@@ -67,6 +73,21 @@
         @endif
         <br><br>
 
+        <h1>List Pembelian</h1>
+        <div class="card-body">
+            <table class="table responsive" id="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th class="text-left">Item Name</th>
+                        <th class="text-right">Qty</th>
+                        <th class="text-right">Sub Total</th>
+                        <th class="text-left">Supplier</th>
+                        <th class="text-left">Time</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
     </div>
 
 @endsection
@@ -83,6 +104,21 @@
             $(this).closest('tr').remove();
             rowIdx--;
         });
+
+        var table = $("#table").DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{{ url('admin/barang/lpembelian') }}",
+            },
+            columns: [
+                { data: 'name', name: 'name', className:'text-left' },
+                { data: 'qty', name: 'qty' , className:'text-right'},
+                { data: 'harga', name: 'harga', render: $.fn.dataTable.render.number( '.', ',', 2, 'Rp' ) , className:'text-right'},
+                { data: 'supplier', name: 'supplier' , className:'text-left' },
+                { data: 'created_at', name: 'created_at' , className:'text-left' },
+            ]
+        });
     });
     function addClick() {
             var rowCount = $('#tab_logic tr').length;
@@ -96,6 +132,10 @@
                                     </select>
                     </td>
                     <td><input type="number" name='qty[]' placeholder='Enter Qty' class="form-control qty" step="0" min="0"/></td>
+                    <td><input type="number" name='harga[]' placeholder='Enter Sub Total'
+                                    class="form-control harga" step="0" min="1"/></td>
+                                <td><input type="text" name='supplier[]' placeholder='Enter Supplier'
+                                    class="form-control supplier" /></td>
                     <td>
                         <input type="button" value="Remove" class="btn btn-danger remove">
                     </td>

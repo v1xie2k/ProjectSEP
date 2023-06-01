@@ -6,6 +6,7 @@ use App\Models\barang;
 use App\Models\detail_resep;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use App\Models\PembelianDb;
 
 class barangController extends Controller
 {
@@ -29,6 +30,22 @@ class barangController extends Controller
         ->make(true);
     }
 
+    public function lpembelian()
+    {
+        $pembelian = PembelianDb::get();
+        // dd($pembelian);
+
+        return DataTables::of($pembelian)
+            ->addColumn('name', function ($data) {
+                $load = barang::where('id', $data->id_barang)->pluck('name')->first();
+                // dd($load);
+                return "<p>$load</p>";
+            })
+
+            ->rawColumns(['name'])
+            ->make(true);
+    }
+
     public function pembelian(Request $request)
     {
         $item = barang::get();
@@ -42,6 +59,8 @@ class barangController extends Controller
         $data = $request->all();
         $items = $request->input('items', []);
         $quantities = $request->input('qty', []);
+        $harga = $request->input('harga', []);
+        $supplier = $request->input('supplier', []);
 
         for ($i=0; $i < count($quantities); $i++) {
             if ($quantities[$i] != '') {
@@ -51,6 +70,16 @@ class barangController extends Controller
                 $qtyAkhir = $barang['stok'] + $quantities[$i];
                 $barang->stok = $qtyAkhir;
                 $barang->save();
+            };
+        }
+
+        for ($i=0; $i < count($quantities); $i++) {
+            if ($quantities[$i] != '') {
+                $dataPembelian['id_barang'] = $items[$i];
+                $dataPembelian['qty'] = $quantities[$i];
+                $dataPembelian['harga'] = $harga[$i];
+                $dataPembelian['supplier'] = $supplier[$i];
+                PembelianDb::create($dataPembelian);
             };
         }
         return redirect("admin/barang/pembelian")->with('pesan',['tipe'=>1, 'isi'=> 'Berhasil tambah stock']);
