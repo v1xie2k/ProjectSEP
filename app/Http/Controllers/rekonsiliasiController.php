@@ -7,14 +7,39 @@ use App\Models\logRekonsiliasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class rekonsiliasiController extends Controller
 {
     public function home(Request $request)
     {
+        if(Session::get('filter_start_rekon') == null)
+        {
+            $filter_start_rekon = new Carbon('first day of this month');
+            Session::put('filter_start_rekon',$filter_start_rekon);
+        }
+        if(Session::get('filter_end_rekon') == null)
+        {
+            $filter_end_rekon = new Carbon('last day of this month');
+            Session::put('filter_end_rekon',$filter_end_rekon);
+        }
         $item = barang::orderBy('name','asc')->get();
-        if(isLogin())return view('master.rekonsiliasi.home',compact('item'));
+        $start = Session::get('filter_start_rekon');
+        $end = Session::get('filter_end_rekon');
+        $rekonsiliasi = logRekonsiliasi::where('created_at','>=',$start)->where('created_at','<=',$end)->get();
+        if(isLogin())return view('master.rekonsiliasi.home',compact('start', 'end', 'item', 'rekonsiliasi'));
         abort(403);
+    }
+    public function filterDate(Request $request)
+    {
+        $start = Carbon::parse($request->start);
+        $end = Carbon::parse($request->end);
+        Session::forget('filter_start_rekon');
+        Session::forget('filter_end_rekon');
+        Session::put('filter_start_rekon',$start);
+        Session::put('filter_end_rekon',$end);
+        return redirect()->back();
     }
     public function docreate(Request $request)
     {
@@ -42,6 +67,8 @@ class rekonsiliasiController extends Controller
         $ldate = date('Y-m-d');
         for ($i=0; $i < count($arr); $i++) {
             $status = 1;
+            $selectedItem = DB::table('barang')->where('id', $arr[$i]['id'])->get();
+            $arr[$i]['lastqty'] = $selectedItem[0]->stok;
             $updateRekonsiliasi = DB::table('barang')->where('id',$arr[$i]['id'])->update(['stok'=>$arr[$i]['qty'], 'updated_at'=>$ldate]);
             $id = logRekonsiliasi::create($arr[$i]);
         }

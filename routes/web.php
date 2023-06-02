@@ -133,6 +133,7 @@ Route::prefix('admin')->middleware(['CheckRole:admin'])->group(function () {
     Route::prefix('rekonsiliasi')->group(function () {
         Route::get('',[rekonsiliasiController::class,'home']);
         Route::post('docreate',[rekonsiliasiController::class,'docreate']);
+        Route::post('filterDate',[rekonsiliasiController::class,'filterDate']);
     });
 
 });

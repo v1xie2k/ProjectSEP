@@ -65,7 +65,30 @@
                 <div class="alert alert-success">{{ $pesan['isi'] }}</div>
             @endif
         @endif
-
+        <h1>Daftar Rekonsiliasi Stock</h1>
+        <form action="{{ url('/admin/rekonsiliasi/filterDate') }}" method="post" enctype="multipart/form-data">
+            @csrf
+            <div class="mb-3">
+                <label for="id_kategori">Choose a Date Range:</label>
+                <input type="date" name="start" id="" value="{{ \carbon\carbon::parse($start)->isoFormat("YYYY-MM-DD")}}">
+                <label for="id_kategori"> &nbsp; To  &nbsp;</label>
+                <input type="date" name="end" id="" value="{{ \carbon\carbon::parse($end)->isoFormat("YYYY-MM-DD")}}">
+                &nbsp; &nbsp;
+                <button type="submit" class="btn btn-success" style="height: 30px; width:100px; line-height:0px; ">Filter</button>
+            </div>
+        </form>
+        <div class="grid gap-3 column-gap-3">
+            @foreach ($rekonsiliasi as $value)
+            <div class="card" style="width: 18rem; color:black;">
+                <div class="card-body">
+                  <h5 class="card-title">Nama Item:{{$value->name}}</h5>
+                  <h6 class="card-text">Stok Sebelumnya:{{$value->lastqty}}</h6>
+                  <h6 class="card-text">Stok Sekarang:{{$value->qty}}</h6>
+                  <b class="card-text">{{ \carbon\carbon::parse($value->created_at)->isoFormat("YYYY-MM-DD")}}</b>
+                </div>
+            </div>
+            @endforeach
+        </div>
     </div>
 
 @endsection

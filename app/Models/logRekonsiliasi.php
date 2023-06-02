@@ -16,5 +16,6 @@ class logRekonsiliasi extends Model
     protected $fillable = [
         'name',
         'qty',
+        'lastqty'
     ];
 }
